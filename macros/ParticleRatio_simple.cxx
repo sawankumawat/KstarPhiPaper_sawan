@@ -452,7 +452,7 @@ void ParticleRatio_simple()
     gMYieldKstar[2]->SetFillStyle(1001);
     gMYieldKstar[2]->SetFillColorAlpha(kRed + 1, 0.3);
     gMYieldKstar[2]->Draw("E2 same");
-    gMYieldKstarRun2[0]->SetMarkerStyle(21);
+    gMYieldKstarRun2[0]->SetMarkerStyle(24);
     gMYieldKstarRun2[0]->SetMarkerColor(kBlue + 1);
     gMYieldKstarRun2[0]->SetLineColor(kBlue + 1);
     gMYieldKstarRun2[0]->SetLineWidth(2);
@@ -548,7 +548,7 @@ void ParticleRatio_simple()
     gMYieldPhiRun3[2]->SetFillStyle(1001);
     gMYieldPhiRun3[2]->SetFillColorAlpha(kRed + 1, 0.3);
     gMYieldPhiRun3[2]->Draw("E2 same");
-    gMYieldPhiRun2[0]->SetMarkerStyle(21);
+    gMYieldPhiRun2[0]->SetMarkerStyle(24);
     gMYieldPhiRun2[0]->SetMarkerColor(kBlue + 1);
     gMYieldPhiRun2[0]->SetLineColor(kBlue + 1);
     gMYieldPhiRun2[0]->SetLineWidth(2);
@@ -611,7 +611,7 @@ void ParticleRatio_simple()
     gMPtKstar[2]->SetFillColorAlpha(kRed, 0.3);
     gMPtKstar[2]->Draw("E2 same");
 
-    gMPtKstarRun2[0]->SetMarkerStyle(21);
+    gMPtKstarRun2[0]->SetMarkerStyle(24);
     gMPtKstarRun2[0]->SetMarkerColor(kBlue);
     gMPtKstarRun2[0]->SetLineColor(kBlue);
     gMPtKstarRun2[0]->SetLineWidth(2);
@@ -680,7 +680,7 @@ void ParticleRatio_simple()
     gMPtPhiRun3[2]->SetFillStyle(1001);
     gMPtPhiRun3[2]->SetFillColorAlpha(kRed, 0.3);
     gMPtPhiRun3[2]->Draw("E2 same");
-    gMPtPhiRun2[0]->SetMarkerStyle(21);
+    gMPtPhiRun2[0]->SetMarkerStyle(24);
     gMPtPhiRun2[0]->SetMarkerColor(kBlue);
     gMPtPhiRun2[0]->SetLineColor(kBlue);
     gMPtPhiRun2[0]->SetLineWidth(2);
@@ -2138,23 +2138,23 @@ void ParticleRatio_simple()
         TGraphErrors *run2Uncorr = (TGraphErrors *)run2Data[2]->Clone(Form("%s_Run2Uncorr", frameName));
 
         // Run 3 data: statistical, total systematic, and uncorrelated systematic.
-        SetGraphStyle(run3Stat, kBlue + 1, 1.0, 20, 0.5, 1);
+        SetGraphStyle(run3Stat, kBlue + 1, 1.0, 20, 0.8, 1);
         run3Stat->Draw("PE SAME");
-        SetGraphStyle(run3Sys, kBlue + 1, 1.0, 20, 0.5, 1);
+        SetGraphStyle(run3Sys, kBlue + 1, 1.0, 20, 0.8, 1);
         run3Sys->SetFillStyle(0);
         run3Sys->Draw("5 SAME");
-        SetGraphStyle(run3Uncorr, kBlue + 1, 1.0, 20, 0.5, 1);
+        SetGraphStyle(run3Uncorr, kBlue + 1, 1.0, 20, 0.8, 1);
         run3Uncorr->SetFillStyle(1001);
         run3Uncorr->SetFillColorAlpha(kBlue + 1, 0.30);
         run3Uncorr->Draw("E2 SAME");
 
         // Run 2 data.
-        SetGraphStyle(run2Stat, kRed + 1, 1.0, 20, 0.5, 1);
+        SetGraphStyle(run2Stat, kRed + 1, 1.0, 24, 0.8, 1);
         run2Stat->Draw("PE SAME");
-        SetGraphStyle(run2Sys, kRed + 1, 1.0, 20, 0.5, 1);
+        SetGraphStyle(run2Sys, kRed + 1, 1.0, 24, 0.8, 1);
         run2Sys->SetFillStyle(0);
         run2Sys->Draw("5 SAME");
-        SetGraphStyle(run2Uncorr, kRed + 1, 1.0, 20, 0.5, 1);
+        SetGraphStyle(run2Uncorr, kRed + 1, 1.0, 24, 0.8, 1);
         run2Uncorr->SetFillStyle(1001);
         run2Uncorr->SetFillColorAlpha(kRed + 1, 0.30);
         run2Uncorr->Draw("E2 SAME");
