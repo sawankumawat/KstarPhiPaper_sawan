@@ -90,7 +90,7 @@ void SetHistStyle(TH1 *hist,
                   double alpha = 1.0,
                   int markerStyle = 20,
                   double markerSize = 1.0,
-                  int lineWidth = 1,
+                  int lineWidth = 2,
                   int lineStyle = 1)
 {
     hist->SetLineColorAlpha(color, alpha);
@@ -176,7 +176,7 @@ void SetTopPadHistStyle(TH1 *hist,
                         double alpha = 1.0,
                         int markerStyle = 20,
                         double markerSize = 1.0,
-                        int lineWidth = 1,
+                        int lineWidth = 2,
                         int lineStyle = 1)
 {
     hist->SetLineColorAlpha(color, alpha);
@@ -206,7 +206,7 @@ void SetRatioHistStyle(TH1 *hist,
                        double alpha = 1.0,
                        int markerStyle = 20,
                        double markerSize = 1.0,
-                       int lineWidth = 1,
+                       int lineWidth = 2,
                        int lineStyle = 1)
 {
     hist->SetLineColorAlpha(color, alpha);
@@ -251,7 +251,7 @@ void SetGraphStyle(TGraph *graph,
                    double alpha = 1.0,
                    int markerStyle = 20,
                    double markerSize = 1.0,
-                   int lineWidth = 1,
+                   int lineWidth = 2,
                    int lineStyle = 1)
 {
     graph->SetLineColorAlpha(color, alpha);

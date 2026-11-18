@@ -397,6 +397,7 @@ void DrawCombined(const Species &ks, const Species &phi,
                   const char *out = "Combined_SpectraMultiplicity.pdf")
 {
     gStyle->SetOptStat(0);
+    gStyle->SetEndErrorSize(0);
 
     // ------------------------------------------------------------
     // Canvas and pads
@@ -415,7 +416,7 @@ void DrawCombined(const Species &ks, const Species &phi,
 
     // Top pads
     topK->SetBottomMargin(0.00);
-    topK->SetTopMargin(0.06);
+    topK->SetTopMargin(0.03);
     topK->SetLeftMargin(0.16);
     topK->SetRightMargin(0.005);
     topK->SetTickx();
@@ -423,9 +424,9 @@ void DrawCombined(const Species &ks, const Species &phi,
     topK->SetLogy();
 
     topPhi->SetBottomMargin(0.00);
-    topPhi->SetTopMargin(0.06);
-    topPhi->SetLeftMargin(0.005);
-    topPhi->SetRightMargin(0.16);
+    topPhi->SetTopMargin(0.03);
+    topPhi->SetLeftMargin(0.009);
+    topPhi->SetRightMargin(0.03);
     topPhi->SetTickx();
     topPhi->SetTicky();
     topPhi->SetLogy();
@@ -441,8 +442,8 @@ void DrawCombined(const Species &ks, const Species &phi,
 
     botPhi->SetTopMargin(0.00);
     botPhi->SetBottomMargin(0.35);
-    botPhi->SetLeftMargin(0.005);
-    botPhi->SetRightMargin(0.16);
+    botPhi->SetLeftMargin(0.009);
+    botPhi->SetRightMargin(0.03);
     botPhi->SetTickx();
     botPhi->SetTicky();
     botPhi->SetLogy();
@@ -463,7 +464,9 @@ void DrawCombined(const Species &ks, const Species &phi,
                          bool leftPanel,
                          bool uncorrRelative)
     {
-        const double xmax = s.stat[0]->GetXaxis()->GetXmax();
+        // const double xmax = s.stat[0]->GetXaxis()->GetXmax();
+        const double xmin = isPhi ? 0.0 : 0.0;
+        const double xmax = isPhi ? s.stat[0]->GetXaxis()->GetXmax() : 21.3;
 
         // --------------------------------------------------------
         // TOP: spectra
@@ -471,9 +474,8 @@ void DrawCombined(const Species &ks, const Species &phi,
 
         top->cd();
 
-        TH1D *frame = new TH1D(
-            Form("frame_combined_%s", isPhi ? "phi" : "kstar"),
-            "", 100, 0.0, xmax);
+        // TH1D *frame = new TH1D(Form("frame_combined_%s", isPhi ? "phi" : "kstar"), "", 100, 0.0, xmax);
+        TH1D *frame = new TH1D(Form("frame_combined_%s", isPhi ? "phi" : "kstar"), "", 100, xmin, xmax);
 
         frame->Reset();
 
@@ -698,10 +700,8 @@ void DrawCombined(const Species &ks, const Species &phi,
 
         bot->cd();
 
-        TH1D *ratioFrame = new TH1D(
-            Form("ratio_frame_combined_%s",
-                 isPhi ? "phi" : "kstar"),
-            "", 100, 0.0, xmax);
+        // TH1D *ratioFrame = new TH1D(Form("ratio_frame_combined_%s", isPhi ? "phi" : "kstar"), "", 100, 0.0, xmax);
+        TH1D *ratioFrame = new TH1D(Form("ratio_frame_combined_%s", isPhi ? "phi" : "kstar"), "", 100, xmin, xmax);
 
         ratioFrame->Reset();
 
@@ -788,7 +788,8 @@ void DrawCombined(const Species &ks, const Species &phi,
             r->Draw("P SAME");
         }
 
-        TLine *one = new TLine(0, 1, xmax, 1);
+        // TLine *one = new TLine(0, 1, xmax, 1);
+        TLine *one = new TLine(xmin, 1, xmax, 1);
         one->SetLineStyle(2);
         one->Draw("SAME");
     };
