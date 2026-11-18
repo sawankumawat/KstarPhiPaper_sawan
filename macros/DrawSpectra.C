@@ -408,11 +408,11 @@ void DrawCombined(const Species &ks, const Species &phi,
     // K*0: left column
     // Phi: right column
 
-    TPad *topK = new TPad("topK_combined", "", 0.0, 0.30, 0.5, 1.0);
-    TPad *botK = new TPad("botK_combined", "", 0.0, 0.00, 0.5, 0.30);
+    TPad *topK = new TPad("topK_combined", "", 0.0, 0.30, 0.535, 1.0);
+    TPad *botK = new TPad("botK_combined", "", 0.0, 0.00, 0.535, 0.30);
 
-    TPad *topPhi = new TPad("topPhi_combined", "", 0.5, 0.30, 1.0, 1.0);
-    TPad *botPhi = new TPad("botPhi_combined", "", 0.5, 0.00, 1.0, 0.30);
+    TPad *topPhi = new TPad("topPhi_combined", "", 0.535, 0.30, 1.0, 1.0);
+    TPad *botPhi = new TPad("botPhi_combined", "", 0.535, 0.00, 1.0, 0.30);
 
     // Top pads
     topK->SetBottomMargin(0.00);
@@ -425,7 +425,7 @@ void DrawCombined(const Species &ks, const Species &phi,
 
     topPhi->SetBottomMargin(0.00);
     topPhi->SetTopMargin(0.03);
-    topPhi->SetLeftMargin(0.009);
+    topPhi->SetLeftMargin(0.01);
     topPhi->SetRightMargin(0.03);
     topPhi->SetTickx();
     topPhi->SetTicky();
@@ -442,7 +442,7 @@ void DrawCombined(const Species &ks, const Species &phi,
 
     botPhi->SetTopMargin(0.00);
     botPhi->SetBottomMargin(0.35);
-    botPhi->SetLeftMargin(0.009);
+    botPhi->SetLeftMargin(0.01);
     botPhi->SetRightMargin(0.03);
     botPhi->SetTickx();
     botPhi->SetTicky();
@@ -676,11 +676,11 @@ void DrawCombined(const Species &ks, const Species &phi,
             latex.SetNDC();
             latex.SetTextFont(42);
             latex.SetTextSize(0.05);
-            latex.DrawLatex(0.68, 0.87, "#bf{ALICE}");
+            latex.DrawLatex(0.78, 0.89, "#bf{ALICE}");
             latex.SetTextSize(0.04);
-            latex.DrawLatex(0.55, 0.82, "pp, #sqrt{#it{s}} = 13.6 TeV");
-            latex.DrawLatex(0.68, 0.77, "|y| < 0.5");
-            latex.DrawLatex(0.69, 0.72, s.label);
+            latex.DrawLatex(0.635, 0.84, "pp, #sqrt{#it{s}} = 13.6 TeV");
+            latex.DrawLatex(0.78, 0.79, "|y| < 0.5");
+            latex.DrawLatex(0.79, 0.74, s.label);
 
             latex.SetTextSize(0.03);
             latex.DrawLatex(0.05, 0.03, "Uncertainties: stat. (bars), sys. (boxes)");
@@ -691,7 +691,7 @@ void DrawCombined(const Species &ks, const Species &phi,
             KstarLabel.SetNDC();
             KstarLabel.SetTextFont(42);
             KstarLabel.SetTextSize(0.04);
-            KstarLabel.DrawLatex(0.85, 0.87, s.label);
+            KstarLabel.DrawLatex(0.85, 0.89, s.label);
         }
 
         // --------------------------------------------------------
@@ -895,7 +895,7 @@ void DrawSpectra(const char *phiFileName = kPhiFileDefault,
         return;
     }
 
-    DrawOne(phi, "Phi_SpectraMultiplicity", true, true, phiMB);
+    // DrawOne(phi, "Phi_SpectraMultiplicity", true, true, phiMB);
 
     TH1 *kstarMB = CloneHist(fk, "SpectraStat_0_100");
     if (!kstarMB)
@@ -904,7 +904,7 @@ void DrawSpectra(const char *phiFileName = kPhiFileDefault,
         return;
     }
 
-    DrawOne(ks, "Kstar0_SpectraMultiplicity", false, false, kstarMB);
+    // DrawOne(ks, "Kstar0_SpectraMultiplicity", false, false, kstarMB);
 
     DrawCombined(ks, phi, kstarMB, phiMB, "KStarPhi_SpectraMultiplicity");
 }

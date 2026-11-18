@@ -1656,7 +1656,6 @@ void ParticleRatio_simple()
 
     if (isSavePlots)
     {
-        cYieldLMRatio->SaveAs((plotOutputDirectory + "/Yield_LMRatio_KstarKaPi_Run3.png").c_str());
         cYieldLMRatio->SaveAs((plotOutputDirectory + "/Yield_LMRatio_KstarKaPi_Run3.pdf").c_str());
     }
 
@@ -1733,7 +1732,6 @@ void ParticleRatio_simple()
 
     if (isSavePlots)
     {
-        cYieldLMRatioPhi->SaveAs((plotOutputDirectory + "/Yield_LMRatio_PhiKaPi_Run3.png").c_str());
         cYieldLMRatioPhi->SaveAs((plotOutputDirectory + "/Yield_LMRatio_PhiKaPi_Run3.pdf").c_str());
     }
 
@@ -2045,9 +2043,6 @@ void ParticleRatio_simple()
     if (isSavePlots)
     {
         cParticleRatios->SaveAs(
-            (plotOutputDirectory + "/ParticleRatios_FourPanel_Run3.png").c_str());
-
-        cParticleRatios->SaveAs(
             (plotOutputDirectory + "/ParticleRatios_FourPanel_Run3.pdf").c_str());
     }
 
@@ -2056,6 +2051,8 @@ void ParticleRatio_simple()
     //======================================================
     // These panels reuse the measured, EPOS, and Pythia graphs already loaded
     // and drawn above. No additional physics scaling is applied here.
+
+    gStyle->SetLineScalePS(1.7);
 
     auto makeHorizontalPad = [](const char *name, const char *title,
                                 double xMin, double xMax, bool isLeft)
@@ -2201,6 +2198,7 @@ void ParticleRatio_simple()
             TLegend *dataLegend = new TLegend(annotations.legendX1, annotations.legendY1,
                                               annotations.legendX2, annotations.legendY2);
             SetLegend(dataLegend);
+            dataLegend->SetTextAlign(12);
             dataLegend->AddEntry(run3Stat, "pp, #sqrt{s} = 13.6 TeV", "p");
             dataLegend->AddEntry(run2Stat, "pp, #sqrt{s} = 13 TeV", "p");
             dataLegend->Draw();
@@ -2300,8 +2298,8 @@ void ParticleRatio_simple()
     TLatex panelLatex2;
     panelLatex2.SetNDC();
     panelLatex2.SetTextFont(42);
-    panelLatex2.SetTextSize(0.055);
-    panelLatex2.DrawLatex(0.72, 0.83, "#bf{ALICE}");
+    panelLatex2.SetTextSize(0.065);
+    panelLatex2.DrawLatex(0.78, 0.82, "#bf{ALICE}");
 
     cMeanPtYieldKstarPhi->cd(2);
     drawObservablePanel(gPad, "hFrameMeanPtYieldKstarPhi_PhiPt",
@@ -2322,11 +2320,8 @@ void ParticleRatio_simple()
     // if (isSavePlots)
     {
         // cMeanPtKstarPhi->SaveAs((plotOutputDirectory + "/MeanPt_KstarPhi_Run3.pdf").c_str());
-        // cMeanPtKstarPhi->SaveAs((plotOutputDirectory + "/MeanPt_KstarPhi_Run3.png").c_str());
         // cYieldKstarPhi->SaveAs((plotOutputDirectory + "/dNdy_KstarPhi_Run3.pdf").c_str());
-        // cYieldKstarPhi->SaveAs((plotOutputDirectory + "/dNdy_KstarPhi_Run3.png").c_str());
         cMeanPtYieldKstarPhi->SaveAs((plotOutputDirectory + "/MeanPtYield_KstarPhi_Run3.pdf").c_str());
-        // cMeanPtYieldKstarPhi->SaveAs((plotOutputDirectory + "/MeanPtYield_KstarPhi_Run3.png").c_str());
     }
 
     //======================================================
@@ -2378,12 +2373,12 @@ void ParticleRatio_simple()
         TGraphErrors *dSys = (TGraphErrors *)data[1]->Clone(Form("%s_sys", frameName));
         TGraphErrors *dUncorr = (TGraphErrors *)data[2]->Clone(Form("%s_uncorr", frameName));
 
-        SetGraphStyle(dStat, kRed, 1.0, 20, 1.0, 1);
+        SetGraphStyle(dStat, kRed, 1.0, 20, 0.8, 1);
         dStat->Draw("PE SAME");
-        SetGraphStyle(dSys, kRed, 1.0, 20, 1.0, 1);
+        SetGraphStyle(dSys, kRed, 1.0, 20, 0.8, 1);
         dSys->SetFillStyle(0);
         dSys->Draw("5 SAME");
-        SetGraphStyle(dUncorr, kRed, 1.0, 20, 1.0, 1);
+        SetGraphStyle(dUncorr, kRed, 1.0, 20, 0.8, 1);
         dUncorr->SetFillStyle(1001);
         dUncorr->SetFillColorAlpha(kRed, 0.35);
         dUncorr->Draw("E2 SAME");
@@ -2400,7 +2395,7 @@ void ParticleRatio_simple()
         eposOnCopy->Draw("LX SAME");
 
         thermalCopy->SetLineColor(kMagenta + 2);
-        thermalCopy->SetLineStyle(10);
+        thermalCopy->SetLineStyle(5);
         thermalCopy->SetLineWidth(2);
         thermalCopy->Draw("LX SAME");
 
@@ -2421,7 +2416,7 @@ void ParticleRatio_simple()
         txt.SetTextSize(0.045);
         txt.DrawLatex(rightAxis ? 0.05 : 0.22, 0.87, panelLabel);
         txt.SetTextSize(0.052);
-        txt.DrawLatex(rightAxis ? 0.14 : 0.31, 0.87, ratioLabel);
+        txt.DrawLatex(rightAxis ? 0.13 : 0.3, 0.865, ratioLabel);
 
         if (showDataLegend)
         {
@@ -2481,8 +2476,8 @@ void ParticleRatio_simple()
 
     for (TPad *p : {padPhiPi, padPhiK0s, padPhiXi})
     {
-        p->SetLeftMargin(0.19);
-        p->SetRightMargin(0.04);
+        p->SetLeftMargin(0.16);
+        p->SetRightMargin(0.03);
         p->SetTopMargin(0.07);
         p->SetBottomMargin(0.15);
         p->SetTickx(1);
@@ -2509,6 +2504,7 @@ void ParticleRatio_simple()
                                     bool showModelLegend)
     {
         pad->cd();
+        gStyle->SetLineScalePS(1.5);
 
         TH1D *frame = new TH1D(frameName, "", 100, 1.8, 23.5);
         SetHistStyle(frame);
@@ -2527,12 +2523,12 @@ void ParticleRatio_simple()
             TGraphErrors *dSys = (TGraphErrors *)data[1]->Clone(Form("%s_sys", frameName));
             TGraphErrors *dUncorr = (TGraphErrors *)data[2]->Clone(Form("%s_uncorr", frameName));
 
-            SetGraphStyle(dStat, kRed, 1.0, 20, 1.0, 1);
+            SetGraphStyle(dStat, kRed, 1.0, 20, 0.8, 1);
             dStat->Draw("PE SAME");
-            SetGraphStyle(dSys, kRed, 1.0, 20, 1.0, 1);
+            SetGraphStyle(dSys, kRed, 1.0, 20, 0.8, 1);
             dSys->SetFillStyle(0);
             dSys->Draw("5 SAME");
-            SetGraphStyle(dUncorr, kRed, 1.0, 20, 1.0, 1);
+            SetGraphStyle(dUncorr, kRed, 1.0, 20, 0.8, 1);
             dUncorr->SetFillStyle(1001);
             dUncorr->SetFillColorAlpha(kRed, 0.35);
             dUncorr->Draw("E2 SAME");
@@ -2549,7 +2545,7 @@ void ParticleRatio_simple()
         eposOnCopy->Draw("LX SAME");
 
         thermalCopy->SetLineColor(kMagenta + 2);
-        thermalCopy->SetLineStyle(10);
+        thermalCopy->SetLineStyle(5);
         thermalCopy->SetLineWidth(2);
         thermalCopy->Draw("LX SAME");
 
@@ -2567,22 +2563,22 @@ void ParticleRatio_simple()
         txt.SetNDC();
         txt.SetTextFont(42);
         txt.SetTextSize(0.048);
-        txt.DrawLatex(0.24, 0.86, panelLabel);
+        txt.DrawLatex(0.2, 0.85, panelLabel);
         txt.SetTextSize(0.055);
-        txt.DrawLatex(0.33, 0.86, ratioLabel);
+        txt.DrawLatex(0.27, 0.85, ratioLabel);
 
         if (showInfo)
         {
-            txt.SetTextSize(0.052);
-            txt.DrawLatex(0.65, 0.84, "#bf{ALICE}");
+            txt.SetTextSize(0.065);
+            txt.DrawLatex(0.74, 0.84, "#bf{ALICE}");
         }
 
         if (showInfo2)
         {
 
-            TLegend *legData = new TLegend(0.57, 0.80, 0.90, 0.90);
+            TLegend *legData = new TLegend(0.5, 0.77, 0.88, 0.90);
             SetLegend(legData);
-            legData->SetTextSize(0.038);
+            legData->SetTextSize(0.048);
             legData->AddEntry((TObject *)0, "pp, #sqrt{s} = 13.6 TeV", "");
             legData->AddEntry((TObject *)0, "|y| < 0.5", "");
             legData->Draw();
@@ -2631,9 +2627,7 @@ void ParticleRatio_simple()
     // if (isSavePlots)
     {
         cRatioKstarPhiK0s->SaveAs((plotOutputDirectory + "/Ratio_KstarPhi_KstarK0s_TwoPanel_Run3.pdf").c_str());
-        // cRatioKstarPhiK0s->SaveAs((plotOutputDirectory + "/Ratio_KstarPhi_KstarK0s_TwoPanel_Run3.png").c_str());
         cRatioPhiThreePanel->SaveAs((plotOutputDirectory + "/Ratio_PhiPi_PhiK0s_PhiXi_ThreePanel_Run3.pdf").c_str());
-        // cRatioPhiThreePanel->SaveAs((plotOutputDirectory + "/Ratio_PhiPi_PhiK0s_PhiXi_ThreePanel_Run3.png").c_str());
     }
 }
 
