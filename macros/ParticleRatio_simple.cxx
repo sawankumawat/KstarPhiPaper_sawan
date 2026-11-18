@@ -35,10 +35,11 @@ void RestrictModelXaxis(TGraphErrors *gr, double xMin, double xMax);
 
 void ParticleRatio_simple()
 {
+    gStyle->SetEndErrorSize(0);
     //============================================================
     // USER CONFIGURATION: edit paths and plot output settings here
     //============================================================
-    bool isSavePlots = true;
+    bool isSavePlots = false;
     const string plotOutputDirectory = "../figures";
 
     const Color_t colorEPOSWithoutUrQMD = kGreen + 2;
@@ -522,6 +523,7 @@ void ParticleRatio_simple()
     latex.SetTextFont(42);
     latex.DrawLatex(0.47, 0.25, "stat. (bars), total sys. (open box)");
     latex.DrawLatex(0.47, 0.2, "uncorr. sys. (shaded box)");
+
     if (isSavePlots)
     {
         cdNdyKstar->SaveAs((plotOutputDirectory + "/MeanYield_Kstar.pdf").c_str());
@@ -714,7 +716,8 @@ void ParticleRatio_simple()
     latex.SetTextSize(0.03);
     latex.SetTextFont(22);
     latex.DrawLatex(0.8, 0.90, "#Phi (1020)");
-    cMeanPtPhi->SaveAs((plotOutputDirectory + "/MeanPt_Phi.pdf").c_str());
+    if (isSavePlots)
+        cMeanPtPhi->SaveAs((plotOutputDirectory + "/MeanPt_Phi.pdf").c_str());
 
     //====================================================
     //   ================Kstar/K Ratio ===================
@@ -1329,7 +1332,8 @@ void ParticleRatio_simple()
     latex.SetTextSize(0.04);
     latex.DrawLatex(0.82, 0.85, "#Phi/#pi");
 
-    cRatioPhiPion->SaveAs((plotOutputDirectory + "/Ratio_PhiPion_Run3.pdf").c_str());
+    if (isSavePlots)
+        cRatioPhiPion->SaveAs((plotOutputDirectory + "/Ratio_PhiPion_Run3.pdf").c_str());
 
     //==================================================
     // ===================Phi / Xi Ratio =============
@@ -1399,7 +1403,8 @@ void ParticleRatio_simple()
     latex.DrawLatex(0.28, 0.83, "pp, #sqrt{s} = 13.6 TeV");
     latex.DrawLatex(0.28, 0.78, "|y| < 0.5");
 
-    cRatioPhiXi->SaveAs((plotOutputDirectory + "/Ratio_PhiXi_Run3.pdf").c_str());
+    if (isSavePlots)
+        cRatioPhiXi->SaveAs((plotOutputDirectory + "/Ratio_PhiXi_Run3.pdf").c_str());
 
     //======================================================
     //================Kstar/Kshort Ratio====================
@@ -1572,7 +1577,9 @@ void ParticleRatio_simple()
     legendRatio5->AddEntry(gRatioPhiK0s[0], "#Phi / K^{0}_{S}", "p");
     legendRatio5->Draw();
     legendRatio2->Draw();
-    cRatioPhiK0s->SaveAs((plotOutputDirectory + "/Ratio_PhiK0s_Run3.pdf").c_str());
+
+    if (isSavePlots)
+        cRatioPhiK0s->SaveAs((plotOutputDirectory + "/Ratio_PhiK0s_Run3.pdf").c_str());
 
     //======================================================================
     // ========== Double Yield Ratio (Mult/LM): Kstar/K, Kstar/Pi ==========
@@ -1632,8 +1639,8 @@ void ParticleRatio_simple()
     SetLegend(legendYieldLMRatio);
     legendYieldLMRatio->SetTextSize(0.035);
     legendYieldLMRatio->SetNColumns(2);
-    legendYieldLMRatio->AddEntry(gYieldKstarPiLMRatio[0], "K*^{0} / #pi", "pe");
-    legendYieldLMRatio->AddEntry(gYieldKstarKaLMRatio[0], "K*^{0} / K", "pe");
+    legendYieldLMRatio->AddEntry(gYieldKstarPiLMRatio[0], "K*^{0} / #pi", "p");
+    legendYieldLMRatio->AddEntry(gYieldKstarKaLMRatio[0], "K*^{0} / K", "p");
     legendYieldLMRatio->Draw();
 
     // Model legend
@@ -1715,8 +1722,8 @@ void ParticleRatio_simple()
     legendYieldLMRatioPhi->SetTextSize(0.028);
     legendYieldLMRatioPhi->SetNColumns(2);
 
-    legendYieldLMRatioPhi->AddEntry(gYieldPhiPiLMRatio[0], "#phi / #pi", "pe");
-    legendYieldLMRatioPhi->AddEntry(gYieldPhiKaLMRatio[0], "#phi / K", "pe");
+    legendYieldLMRatioPhi->AddEntry(gYieldPhiPiLMRatio[0], "#phi / #pi", "p");
+    legendYieldLMRatioPhi->AddEntry(gYieldPhiKaLMRatio[0], "#phi / K", "p");
     legendYieldLMRatioPhi->AddEntry(gEPOS_PhiKaLMRatio_UrQMDOff, "#phi / K (UrQMD Off)", "l");
     legendYieldLMRatioPhi->AddEntry(gEPOS_PhiPiLMRatio_UrQMDOff, "#phi / #pi (UrQMD Off)", "l");
     legendYieldLMRatioPhi->AddEntry(gEPOS_PhiKaLMRatio_UrQMDOn, "#phi / K (UrQMD On)", "l");
@@ -2194,8 +2201,8 @@ void ParticleRatio_simple()
             TLegend *dataLegend = new TLegend(annotations.legendX1, annotations.legendY1,
                                               annotations.legendX2, annotations.legendY2);
             SetLegend(dataLegend);
-            dataLegend->AddEntry(run3Stat, "pp, #sqrt{s} = 13.6 TeV", "pef");
-            dataLegend->AddEntry(run2Stat, "pp, #sqrt{s} = 13 TeV", "pef");
+            dataLegend->AddEntry(run3Stat, "pp, #sqrt{s} = 13.6 TeV", "p");
+            dataLegend->AddEntry(run2Stat, "pp, #sqrt{s} = 13 TeV", "p");
             dataLegend->Draw();
         }
         else if (annotations.legendKind == 2)
@@ -2312,14 +2319,14 @@ void ParticleRatio_simple()
                         gEPOS_PhidNdy_UrQMDOff, gEPOS_PhidNdy_UrQMDOn,
                         kPhi, false, 0.0, 0.26, true, true, "(d)", "#phi", summaryPhiYieldAnnotations);
 
-    if (isSavePlots)
+    // if (isSavePlots)
     {
-        cMeanPtKstarPhi->SaveAs((plotOutputDirectory + "/MeanPt_KstarPhi_Run3.pdf").c_str());
-        cMeanPtKstarPhi->SaveAs((plotOutputDirectory + "/MeanPt_KstarPhi_Run3.png").c_str());
-        cYieldKstarPhi->SaveAs((plotOutputDirectory + "/dNdy_KstarPhi_Run3.pdf").c_str());
-        cYieldKstarPhi->SaveAs((plotOutputDirectory + "/dNdy_KstarPhi_Run3.png").c_str());
+        // cMeanPtKstarPhi->SaveAs((plotOutputDirectory + "/MeanPt_KstarPhi_Run3.pdf").c_str());
+        // cMeanPtKstarPhi->SaveAs((plotOutputDirectory + "/MeanPt_KstarPhi_Run3.png").c_str());
+        // cYieldKstarPhi->SaveAs((plotOutputDirectory + "/dNdy_KstarPhi_Run3.pdf").c_str());
+        // cYieldKstarPhi->SaveAs((plotOutputDirectory + "/dNdy_KstarPhi_Run3.png").c_str());
         cMeanPtYieldKstarPhi->SaveAs((plotOutputDirectory + "/MeanPtYield_KstarPhi_Run3.pdf").c_str());
-        cMeanPtYieldKstarPhi->SaveAs((plotOutputDirectory + "/MeanPtYield_KstarPhi_Run3.png").c_str());
+        // cMeanPtYieldKstarPhi->SaveAs((plotOutputDirectory + "/MeanPtYield_KstarPhi_Run3.png").c_str());
     }
 
     //======================================================
@@ -2380,6 +2387,7 @@ void ParticleRatio_simple()
         dUncorr->SetFillStyle(1001);
         dUncorr->SetFillColorAlpha(kRed, 0.35);
         dUncorr->Draw("E2 SAME");
+        // dStat->Draw("PE SAME"); // Draw again to ensure points are on top
 
         // EPOS4 & Thermal-FIST
         TGraphErrors *eposOffCopy = (TGraphErrors *)eposOff->Clone(Form("%s_eposOff", frameName));
@@ -2528,6 +2536,7 @@ void ParticleRatio_simple()
             dUncorr->SetFillStyle(1001);
             dUncorr->SetFillColorAlpha(kRed, 0.35);
             dUncorr->Draw("E2 SAME");
+            // dStat->Draw("PE SAME"); // Draw again to ensure points are on top
         }
 
         TGraphErrors *eposOffCopy = (TGraphErrors *)eposOff->Clone(Form("%s_eposOff", frameName));
@@ -2619,12 +2628,12 @@ void ParticleRatio_simple()
                          kPhi, kXi, 1.0,
                          1.1, 4.3, "dN/dy ratio", "(c)", "#phi / #Xi", false, false, true);
 
-    if (isSavePlots)
+    // if (isSavePlots)
     {
         cRatioKstarPhiK0s->SaveAs((plotOutputDirectory + "/Ratio_KstarPhi_KstarK0s_TwoPanel_Run3.pdf").c_str());
-        cRatioKstarPhiK0s->SaveAs((plotOutputDirectory + "/Ratio_KstarPhi_KstarK0s_TwoPanel_Run3.png").c_str());
+        // cRatioKstarPhiK0s->SaveAs((plotOutputDirectory + "/Ratio_KstarPhi_KstarK0s_TwoPanel_Run3.png").c_str());
         cRatioPhiThreePanel->SaveAs((plotOutputDirectory + "/Ratio_PhiPi_PhiK0s_PhiXi_ThreePanel_Run3.pdf").c_str());
-        cRatioPhiThreePanel->SaveAs((plotOutputDirectory + "/Ratio_PhiPi_PhiK0s_PhiXi_ThreePanel_Run3.png").c_str());
+        // cRatioPhiThreePanel->SaveAs((plotOutputDirectory + "/Ratio_PhiPi_PhiK0s_PhiXi_ThreePanel_Run3.png").c_str());
     }
 }
 
