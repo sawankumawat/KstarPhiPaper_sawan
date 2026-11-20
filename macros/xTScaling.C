@@ -53,14 +53,12 @@ namespace XTStyle
 
     void SetEnergyGraph(TGraph *graph, int index)
     {
-        SetGraphStyle(graph, energyColors[index], 1.0,
-                      energyMarkers[index], 1.0, 1);
+        SetGraphStyle(graph, energyColors[index], 1.0, energyMarkers[index], 0.8, 1);
     }
 
     void SetExponentGraph(TGraph *graph, int index)
     {
-        SetGraphStyle(graph, exponentColors[index], 1.0,
-                      exponentMarkers[index], 1.0, 1);
+        SetGraphStyle(graph, exponentColors[index], 1.0, exponentMarkers[index], 0.8, 1);
     }
 }
 
@@ -465,7 +463,7 @@ namespace KstarXT
             auto *frameXT = padXT->DrawFrame(9.e-7, 8.e9, 3.e-2, 9.9e21);
             frameXT->SetTitle("");
             frameXT->GetXaxis()->SetTitle("#it{x_{#it{T}}}");
-            frameXT->GetYaxis()->SetTitle(Form("#sqrt{s}^{%.2f} d^{3}#sigma/dp^{3} (mb GeV^{-2}c^{3})", nAverage));
+            frameXT->GetYaxis()->SetTitle(Form("#sqrt{s}^{%.2f} d^{3}#sigma/d^{3}p (mb GeV^{ -2}#it{c}^{ 3})", nAverage));
 
             SetHistStyle(frameXT);
             frameXT->GetYaxis()->SetNdivisions(505);
@@ -880,7 +878,7 @@ namespace PhiXT
             auto *frameXT = padXT->DrawFrame(3.e-5, 8.e9, 3.e-2, 9.9e21);
             frameXT->SetTitle("");
             frameXT->GetXaxis()->SetTitle("#it{x_{#it{T}}}");
-            frameXT->GetYaxis()->SetTitle(Form("#sqrt{s}^{%.2f} d^{3}#sigma/dp^{3} (mb GeV^{-2}c^{3})", nCentral));
+            frameXT->GetYaxis()->SetTitle(Form("#sqrt{s}^{%.2f} d^{3}#sigma/d^{3}p (mb GeV^{ -2}#it{c}^{ 3})", nCentral));
             SetHistStyle(frameXT);
             frameXT->GetYaxis()->SetNdivisions(505);
             frameXT->Draw("E Y+");
@@ -1163,7 +1161,7 @@ namespace CrossSectionPlot
         s.stat->SetMarkerStyle(marker);
         s.stat->SetMarkerColor(color);
         s.stat->SetLineColor(color);
-        s.stat->SetMarkerSize(0.8);
+        s.stat->SetMarkerSize(1.0);
         s.stat->SetFillStyle(0);
 
         s.sys->SetMarkerColor(color);
@@ -1257,7 +1255,7 @@ namespace CrossSectionPlot
         // Convert to differential cross sections
         // ------------------------------------------------------------
 
-        constexpr double kstarFactor = 0.5; // K*0 + K*0bar
+        constexpr double kstarFactor = 1.0; // K*0 + K*0bar
 
         auto kstar = MakeSpectrum(
             hKstat, hKsys,
@@ -1304,16 +1302,18 @@ namespace CrossSectionPlot
 
         auto *c = new TCanvas("cKstarPhiCrossSection", "Kstar and Phi cross sections", 700, 700);
         SetPad(c);
+        c->SetBottomMargin(0.15);
+        c->SetLeftMargin(0.21);
+        c->SetRightMargin(0.03);
         c->SetLogy();
 
-        auto *frame = c->DrawFrame(0.0, 0.2 * 1.e-5, 30.0, 10.0);
-
-        frame->SetTitle("");
-        frame->GetXaxis()->SetLabelSize(0);
-        frame->GetXaxis()->SetTitle("#it{p}_{T} (GeV/#it{c})");
-        frame->GetYaxis()->SetTitle("d^{2}#sigma/(d#it{p}_{T}d#it{y}) (mb / (GeV/#it{c}))");
+        auto *frame = c->DrawFrame(0.0, 0.15 * 1.e-5, 30.0, 15.0);
 
         SetHistStyle(frame);
+        frame->GetXaxis()->SetTitle("#it{p}_{T} (GeV/#it{c})");
+        frame->GetYaxis()->SetTitle("#it{E} #frac{d^{3}#sigma}{d^{3}#it{p}} (mb GeV^{ -2}#it{c}^{ 3})");
+        frame->GetYaxis()->SetTitleOffset(1.7);
+
         frame->GetXaxis()->SetRangeUser(0.0, 30.0);
 
         kstar.fit->SetLineColor(kOrange + 7);
@@ -1333,9 +1333,9 @@ namespace CrossSectionPlot
         kstar.stat->Draw("P E SAME");
         phi.stat->Draw("P E SAME");
 
-        auto *legend = new TLegend(0.5, 0.65, 0.8, 0.81);
+        auto *legend = new TLegend(0.55, 0.55, 0.85, 0.75);
         SetLegend(legend);
-        legend->SetTextSize(0.035);
+        legend->SetTextSize(0.045);
 
         legend->AddEntry(kstar.stat, "K*^{0} + #bar{K*}^{0}", "p");
         legend->AddEntry(phi.stat, "#phi", "p");
@@ -1346,13 +1346,13 @@ namespace CrossSectionPlot
         TLatex label;
         label.SetNDC();
         label.SetTextFont(42);
+        label.SetTextSize(0.055);
+        label.DrawLatex(0.45, 0.87, "#bf{ALICE}");
         label.SetTextSize(0.045);
-        label.DrawLatex(0.5, 0.88, "#bf{ALICE}");
-        label.SetTextSize(0.038);
-        label.DrawLatex(0.5, 0.83, "pp, #sqrt{s} = 13.6 TeV, |y| < 0.5");
+        label.DrawLatex(0.45, 0.81, "pp, #sqrt{s} = 13.6 TeV, |y| < 0.5");
 
-        label.SetTextSize(0.025);
-        label.DrawLatex(0.22, 0.2, "Global norm. unc. 2.6% (not shown)");
+        label.SetTextSize(0.038);
+        label.DrawLatex(0.25, 0.19, "Global norm. unc. 2.6% (not shown)");
 
         c->SaveAs("../figures/KstarPhi_CrossSection_13p6TeV.pdf");
     }
